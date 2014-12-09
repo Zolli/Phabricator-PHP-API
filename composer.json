@@ -1,0 +1,22 @@
+{
+    "name": "Phabricator PHP API",
+    "author": "Zoltan Borsos",
+    "description": "PHP implementation for Phabricator conduit application",
+    "keywords": ["api", "client", "phabricator"],
+    "license": "MIT",
+    "require": {
+        "guzzle/guzzle": "3.9.2"
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Phabricator\\": "src/PhabricatorClient"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev"
+}

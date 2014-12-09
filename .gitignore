@@ -1,8 +1,9 @@
 # IntelliJ IDE project files
 .idea/*
 
-# Composer locks
+# Composer files
 composer.lock
+vendor/*
 
 # GIT merge files
 *.orig
