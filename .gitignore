@@ -7,3 +7,6 @@ vendor/*
 
 # GIT merge files
 *.orig
+
+# Test files
+test.php

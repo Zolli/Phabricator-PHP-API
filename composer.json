@@ -5,7 +5,7 @@
     "keywords": ["api", "client", "phabricator"],
     "license": "MIT",
     "require": {
-        "guzzle/guzzle": "3.9.2"
+
     },
     "require-dev": {
 
