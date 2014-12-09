@@ -1,0 +1,5 @@
+{
+    "project.name" : "Phabricator PHP API",
+    "phabricator.uri" : "http://project.zolli.hu/",
+    "history.immutable" : true
+}
