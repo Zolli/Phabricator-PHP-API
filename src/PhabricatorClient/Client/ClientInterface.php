@@ -8,6 +8,6 @@ interface ClientInterface {
     public function getClientName();
     public function getClientVersion();
     public function isConnected();
-    public function request();
+    public function request($url, $requestData);
 
 } 
