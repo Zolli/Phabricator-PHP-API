@@ -9,8 +9,39 @@ use Phabricator\Exception\UnimplementedEndpointMethodException;
  * Class Phabricator
  *
  * @package Phabricator
+ * @author Zoltán Borsos <zolli07@gmail.com>
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
+ * @version 1.0.0
  *
+ * @method object User(string $methodName, array $methodData = []) Execute the method on User endpoint
+ * @method object Token(string $methodName, array $methodData = []) Execute the method on Token endpoint
+ * @method object Slowvote(string $methodName, array $methodData = []) Execute the method on Slowvote endpoint
+ * @method object Repository(string $methodName, array $methodData = []) Execute the method on Repository endpoint
+ * @method object Rremarkup(string $methodName, array $methodData = []) Execute the method on Remarkup endpoint
+ * @method object Releephwork(string $methodName, array $methodData = []) Execute the method on Releephwork endpoint
+ * @method object Releeph(string $methodName, array $methodData = []) Execute the method on Releeph endpoint
  * @method object Project(string $methodName, array $methodData = []) Execute the method on Project endpoint
+ * @method object Phriction(string $methodName, array $methodData = []) Execute the method on Phriction endpoint
+ * @method object Phrequest(string $methodName, array $methodData = []) Execute the method on Phrequest endpoint
+ * @method object Phragment(string $methodName, array $methodData = []) Execute the method on Phragment endpoint
+ * @method object Phid(string $methodName, array $methodData = []) Execute the method on Phid endpoint
+ * @method object Phame(string $methodName, array $methodData = []) Execute the method on Phame endpoint
+ * @method object paste(string $methodName, array $methodData = []) Execute the method on paste endpoint
+ * @method object Passphare(string $methodName, array $methodData = []) Execute the method on Passphare endpoint
+ * @method object Nuance(string $methodName, array $methodData = []) Execute the method on Nuance endpoint
+ * @method object Maniphest(string $methodName, array $methodData = []) Execute the method on Maniphest endpoint
+ * @method object Macro(string $methodName, array $methodData = []) Execute the method on Macro endpoint
+ * @method object Harbormaster(string $methodName, array $methodData = []) Execute the method on Harbormaster endpoint
+ * @method object Flag(string $methodName, array $methodData = []) Execute the method on Flag endpoint
+ * @method object File(string $methodName, array $methodData = []) Execute the method on File endpoint
+ * @method object Feed(string $methodName, array $methodData = []) Execute the method on Feed endpoint
+ * @method object Diffusion(string $methodName, array $methodData = []) Execute the method on Diffusion endpoint
+ * @method object Differential(string $methodName, array $methodData = []) Execute the method on Differential endpoint
+ * @method object Conpherence(string $methodName, array $methodData = []) Execute the method on Conpherence endpoint
+ * @method object Conduit(string $methodName, array $methodData = []) Execute the method on Conduit endpoint
+ * @method object Chatlog(string $methodName, array $methodData = []) Execute the method on Chatlog endpoint
+ * @method object Audit(string $methodName, array $methodData = []) Execute the method on Audit endpoint
+ * @method object Almanac(string $methodName, array $methodData = []) Execute the method on Almanac endpoint
  */
 class Phabricator {
 
@@ -41,6 +72,14 @@ class Phabricator {
      */
     private $uniqueEndpointHandlers;
 
+    /**
+     * Constructor, set authentication information and initialize the basic handshaking
+     *
+     * @param ClientInterface $client
+     * @param string $baseUrl
+     * @param string $authUser
+     * @param string $token
+     */
     public function __construct(ClientInterface $client, $baseUrl, $authUser, $token) {
         $this->setClient($client);
 
