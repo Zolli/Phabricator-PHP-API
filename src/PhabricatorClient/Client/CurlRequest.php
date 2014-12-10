@@ -1,5 +1,13 @@
 <?php namespace Phabricator\Client;
 
+/**
+ * Class CurlRequest
+ *
+ * @package Phabricator\Client
+ * @author Zoltán Borsos <zolli07@gmail.com>
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
+ * @version 1.0.0
+ */
 class CurlRequest {
 
     /**
@@ -12,6 +20,11 @@ class CurlRequest {
      */
     private $handler;
 
+    /**
+     * Constructor
+     *
+     * @param string $requestUrl
+     */
     public function __construct($requestUrl) {
         $this->requestUrl = $requestUrl;
 
@@ -36,6 +49,7 @@ class CurlRequest {
      * @param $option
      * @param $value
      * @return \Phabricator\Client\CurlRequest
+     * @throws \RuntimeException
      */
     public function setOption($option, $value) {
         $res = curl_setopt($this->handler, $option, $value);
@@ -78,9 +92,10 @@ class CurlRequest {
     /**
      * Execute the request
      *
-     * @param bool $processAsConduitResponse
-     * @param bool $returnTransfer
+     * @param bool $processAsConduitResponse Return only the response body from the response
+     * @param bool $returnTransfer Return the result of the request
      * @return array|\stdObj
+     * @throws \RuntimeException
      */
     public function execute($processAsConduitResponse = TRUE, $returnTransfer = TRUE) {
         //Need transfer return
