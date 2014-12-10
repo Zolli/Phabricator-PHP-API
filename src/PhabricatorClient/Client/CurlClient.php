@@ -1,5 +1,13 @@
 <?php namespace Phabricator\Client;
 
+/**
+ * Class CurlClient
+ *
+ * @package Phabricator\Client
+ * @author Zoltán Borsos <zolli07@gmail.com>
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
+ * @version 1.0.0
+ */
 class CurlClient implements ClientInterface {
 
     /**
@@ -10,16 +18,25 @@ class CurlClient implements ClientInterface {
     /**
      * @var string Client version, show on phabricator internal log
      */
-    private $clientVersion = "0.0.1";
+    private $clientVersion = "1.0.0";
 
+    /**
+     * @var string Phabricator base url
+     */
     private $phabricatorUrl;
+
+    /**
+     * @var string Authetnticated user
+     */
     private $authUser;
+
+    /**
+     * @var string Authentication token for user
+     */
     private $certificateToken;
 
     /**
-     * Indicates this client is authenticated successfully or not
-     *
-     * @var bool
+     * @var bool Indicates this client is authenticated successfully or not
      */
     private $isConnected = FALSE;
 
@@ -31,7 +48,8 @@ class CurlClient implements ClientInterface {
     /**
      * Set object properties by given data (baseUrl, user, and token)
      *
-     * @param $data
+     * @param $data array The data to used to make requests and authentication
+     * @throws \InvalidArgumentException
      */
     public function setBaseData($data) {
         if(!is_array($data)) {
@@ -60,6 +78,8 @@ class CurlClient implements ClientInterface {
         $requestEndpoint = $this->phabricatorUrl . "/api/conduit.connect";
         $request = new CurlRequest($requestEndpoint);
         $request->setPostData($postData);
+
+        //Call
         $response = $request->execute();
 
         //Save data, and mark as connected

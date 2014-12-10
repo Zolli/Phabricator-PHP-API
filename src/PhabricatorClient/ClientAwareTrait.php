@@ -2,6 +2,14 @@
 
 use Phabricator\Client\ClientInterface;
 
+/**
+ * Class ClientAwareTrait
+ *
+ * @package Phabricator
+ * @author Zoltán Borsos <zolli07@gmail.com>
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
+ * @version 1.0.0
+ */
 trait ClientAwareTrait {
 
     /**
