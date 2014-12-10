@@ -102,9 +102,32 @@ class CurlClient implements ClientInterface {
         return $this->isConnected;
     }
 
+    /**
+     * Make a request to conduit
+     *
+     * @param string $url the endpoint name (Like, project.query)
+     * @param $requestData The data posted to server
+     * @return array|\stdObj
+     */
+    public function request($url, $requestData) {
+        //Make sure we connected properly
+        if(!$this->isConnected()) {
+            $this->connect();
+        }
 
-    public function request() {
-        // TODO: Implement request() method.
+        $requestData["__conduit__"] = $this->getAuthData();
+
+        $postData = [
+            "params" => json_encode($requestData),
+            "output" => "json",
+        ];
+
+        $request = new CurlRequest($this->phabricatorUrl . "/api/" . $url);
+        $request->setPostData($postData);
+
+        $response = $request->execute();
+
+        return $response;
     }
 
     /**
@@ -118,7 +141,6 @@ class CurlClient implements ClientInterface {
         $data = [
             "connectionId" => $response->connectionID,
             "sessionKey" => $response->sessionKey,
-            "userPHID" => $response->userPHID,
         ];
 
         $this->connectionData = $data;
