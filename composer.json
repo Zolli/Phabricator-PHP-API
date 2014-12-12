@@ -1,5 +1,5 @@
 {
-    "name": "Phabricator PHP API",
+    "name": "PhabricatorPhpApi",
     "author": "Zoltan Borsos",
     "description": "PHP implementation for Phabricator conduit application",
     "keywords": ["api", "client", "phabricator"],
