@@ -46,6 +46,11 @@ class CurlClient implements ClientInterface {
     private $connectionData;
 
     /**
+     * @var bool Indicate the baseData setting is successful or not
+     */
+    public $baseDataIsSet = FALSE;
+
+    /**
      * Set object properties by given data (baseUrl, user, and token)
      *
      * @param $data array The data to used to make requests and authentication
@@ -59,6 +64,7 @@ class CurlClient implements ClientInterface {
         $this->phabricatorUrl = $data['baseUrl'];
         $this->authUser = $data['authUser'];
         $this->certificateToken = $data['token'];
+        $this->baseDataIsSet = TRUE;
     }
 
     /**
@@ -172,6 +178,10 @@ class CurlClient implements ClientInterface {
      * @return array
      */
     private function buildAuthParams() {
+        if($this->baseDataIsSet === FALSE) {
+            throw new \RuntimeException("The initial connection data is not set, please set it with setBaseData() function!");
+        }
+
         $returnData = [];
         $time = time();
 
