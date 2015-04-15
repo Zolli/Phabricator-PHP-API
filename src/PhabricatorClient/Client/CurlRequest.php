@@ -39,8 +39,7 @@ class CurlRequest {
 
         $this->setOption(CURLOPT_URL, $this->requestUrl)
              ->setOption(CURLOPT_VERBOSE, 0)
-             ->setOption(CURLOPT_HEADER, 0)
-             ->setOption(CURLOPT_PORT, 80);
+             ->setOption(CURLOPT_HEADER, 0);
     }
 
     /**
