@@ -2,7 +2,6 @@
 .idea/*
 
 # Composer files
-composer.lock
 vendor/*
 
 # GIT merge files
