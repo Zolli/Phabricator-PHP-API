@@ -1,4 +1,4 @@
-<?php namespace Phabricator\Client;
+<?php namespace Phabricator\Client\Curl;
 
 /**
  * Class CurlClient
