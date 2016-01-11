@@ -19,6 +19,8 @@ class CurlClient implements ClientInterface {
 
     /**
      * {@inheritDoc}
+     *
+     * @codeCoverageIgnore
      */
     public function request($url, $requestData) {
         $request = new CurlRequest($url);

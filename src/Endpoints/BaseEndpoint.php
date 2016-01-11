@@ -34,6 +34,8 @@ class BaseEndpoint {
 
     /**
      * {@inheritdoc}
+     *
+     * @codeCoverageIgnore
      */
     public function defaultExecutor($requestUrl, $requestData) {
         return $this->client->request($requestUrl, $requestData);
