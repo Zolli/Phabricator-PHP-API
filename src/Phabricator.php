@@ -4,6 +4,7 @@ use BuildR\Foundation\Exception\RuntimeException;
 use Phabricator\ClientAwareTrait;
 use Phabricator\Client\ClientInterface;
 use Phabricator\Client\Curl\CurlClient;
+use Phabricator\Endpoints\EndpointInterface;
 use Phabricator\Exception\UnimplementedEndpointException;
 use Phabricator\Request\RequestData;
 use Phabricator\Response\ConduitResponse;
@@ -105,6 +106,11 @@ class Phabricator {
         $apiName = ucfirst(strtolower($apiName));
 
         $this->uniqueEndpointHandlers[$apiName] = $handlerClassName;
+
+        //Invalidate the cache, if exist
+        if(isset($this->endpointObjectCache[$apiName])) {
+            unset($this->endpointObjectCache[$apiName]);
+        }
     }
 
     /**
@@ -139,7 +145,18 @@ class Phabricator {
         return new ConduitResponse($result);
     }
 
-    protected function getEndpointHandler($apiName, $endpointReflector) {
+    /**
+     * Returns a new instance from the given endpoint handler. In the instance creation the client is
+     * passed to tha handler as parameter.
+     *
+     * This method also do runtime caching. All endpoint handler cached by name
+     *
+     * @param string $apiName Used as cache key name
+     * @param \ReflectionClass $endpointReflector
+     *
+     * @return \Phabricator\Endpoints\EndpointInterface
+     */
+    protected function getEndpointHandler($apiName, ReflectionClass $endpointReflector) {
         if(isset($this->endpointObjectCache[$apiName])) {
             return $this->endpointObjectCache[$apiName];
         }
@@ -151,6 +168,15 @@ class Phabricator {
         return $endpointInstance;
     }
 
+    /**
+     * Return the reflector of the method that can execute the query on the
+     * endpoint.
+     *
+     * @param string $methodName Like "query"
+     * @param \ReflectionClass $endpointReflector
+     *
+     * @return \ReflectionMethod
+     */
     protected function getExecutorMethod($methodName, ReflectionClass $endpointReflector) {
         $neededMethod = strtolower($methodName) . "Executor";
 
@@ -161,12 +187,20 @@ class Phabricator {
         return $endpointReflector->getMethod($neededMethod);
     }
 
+    /**
+     * Returns the FQCN of the handler class. Returns the default handler if no
+     * unique handler available for the given endpoint.
+     *
+     * @param string $apiName Like "Project"
+     *
+     * @return string
+     */
     protected function getHandlerClassName($apiName) {
         $apiName = ucfirst(strtolower($apiName));
         $neededClass = __NAMESPACE__ . '\\' . 'Endpoints\\Defaults\\' . $apiName;
 
         if(isset($this->uniqueEndpointHandlers[$apiName])) {
-            $neededClass = get_class($this->uniqueEndpointHandlers[$apiName]);
+            $neededClass = $this->uniqueEndpointHandlers[$apiName];
         }
 
         return $neededClass;
