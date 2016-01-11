@@ -1,5 +1,7 @@
 <?php namespace Phabricator\Client\Curl;
 
+use BuildR\Foundation\Exception\RuntimeException;
+
 /**
  * Class CurlRequest
  *
@@ -92,40 +94,27 @@ class CurlRequest {
      * Execute the request
      *
      * @param bool $processAsConduitResponse Return only the response body from the response
-     * @param bool $returnTransfer Return the result of the request
-     * @return array|\stdObj
-     * @throws \RuntimeException
+     *
+     * @throws \BuildR\Foundation\Exception\RuntimeException
+     *
+     * @return array|\stdClass
      */
-    public function execute($processAsConduitResponse = TRUE, $returnTransfer = TRUE) {
+    public function execute($returnTransfer = TRUE) {
         //Need transfer return
         if($returnTransfer === TRUE) {
             $this->setOption(CURLOPT_RETURNTRANSFER, 1);
         }
 
-        //Execute request
         $result = curl_exec($this->handler);
 
-        //Error checking
+        //Error handling
         if(curl_errno($this->handler)) {
-            $exception = new \RuntimeException("Error executing request, error code: " . curl_errno($this->handler) . ", message: " . curl_error($this->handler));
-            curl_close($this->handler);
-            throw $exception;
-        }
-
-        //If post-processing is not enabled return the raw response
-        if(($processAsConduitResponse === FALSE) OR ($returnTransfer === FALSE)) {
+            $format = [curl_errno($this->handler), curl_error($this->handler)];
             $this->close();
-            return $result;
+            throw RuntimeException::createByFormat('Error executing request, error code: %s, Message: %s', $format);
         }
 
-        $this->close();
-        $responseAsJson = json_decode($result);
-
-        if($responseAsJson->error_info) {
-            throw new \RuntimeException("The response returned an error: " . $responseAsJson->error_info);
-        }
-
-        return $responseAsJson->result;
+        return $result;
     }
 
 } 

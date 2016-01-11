@@ -6,6 +6,7 @@ use Phabricator\Client\ClientInterface;
 use Phabricator\Client\Curl\CurlClient;
 use Phabricator\Exception\UnimplementedEndpointException;
 use Phabricator\Request\RequestData;
+use Phabricator\Response\ConduitResponse;
 use ReflectionClass;
 use ReflectionException;
 
@@ -134,7 +135,8 @@ class Phabricator {
         $endpointInstance = $this->getEndpointHandler($apiName, $endpointReflector);
 
         //Returning the response from request
-        return $methodReflector->invokeArgs($endpointInstance, [$requestUrl, $requestData]);
+        $result = $methodReflector->invokeArgs($endpointInstance, [$requestUrl, $requestData]);
+        return new ConduitResponse($result);
     }
 
     protected function getEndpointHandler($apiName, $endpointReflector) {

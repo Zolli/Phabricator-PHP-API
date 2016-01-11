@@ -9,6 +9,7 @@
         "buildr/foundation": "0.2.*"
     },
     "require-dev": {
+        "buildr/test-tools": "1.*",
         "phing/phing": "2.*",
         "phpunit/phpunit": "5.*",
         "phploc/phploc": "2.*",
