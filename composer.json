@@ -23,6 +23,11 @@
             "Phabricator\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Phabricator\\Tests\\": "tests/"
+        }
+    },
     "config": {
         "preferred-install": "dist"
     }

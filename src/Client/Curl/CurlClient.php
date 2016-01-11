@@ -20,27 +20,6 @@ class CurlClient implements ClientInterface {
     /**
      * {@inheritDoc}
      */
-    public function getClientName() {
-        return 'Phabricator PHP API';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getClientDescription() {
-        return 'CURL Client Implementation';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getClientVersion() {
-        return '1.0.0';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function request($url, $requestData) {
         $request = new CurlRequest($url);
         $request->setPostData($requestData);

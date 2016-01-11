@@ -49,7 +49,7 @@ class CurlRequest {
      *
      * @param $option
      * @param $value
-     * @return \Phabricator\Client\CurlRequest
+     * @return \Phabricator\Client\CurlCurlRequest
      * @throws \RuntimeException
      */
     public function setOption($option, $value) {
