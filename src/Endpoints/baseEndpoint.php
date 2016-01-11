@@ -10,7 +10,7 @@ use Phabricator\Client\ClientInterface;
  * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
  * @version 1.0.0
  */
-class baseEndpoint {
+class BaseEndpoint {
 
     /**
      * @var \Phabricator\Client\ClientInterface
