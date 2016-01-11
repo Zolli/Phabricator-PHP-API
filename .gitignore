@@ -1,11 +1,12 @@
 # IntelliJ IDE project files
-.idea/*
+.idea/
 
-# Composer files
-vendor/*
-
-# GIT merge files
+# GITExtension merge origin files
 *.orig
 
-# Test files
-test.php
+# Composer vendor folder and lock files
+/vendor/
+composer.lock
+
+# Build Process output files
+build/output/*
