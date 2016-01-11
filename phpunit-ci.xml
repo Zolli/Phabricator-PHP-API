@@ -1,0 +1,28 @@
+<phpunit
+    bootstrap="./bootstrap.php"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    convertNoticesToExceptions="false"
+    convertErrorsToExceptions="true"
+    convertWarningsToExceptions="true"
+    verbose="true">
+    <testsuites>
+        <testsuite name="Phabricator PHP API">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log type="coverage-html" target="./build/output/coverage"/>
+        <log type="coverage-clover" target="./build/output/logs/clover.xml"/>
+        <log type="coverage-crap4j" target="./build/output/logs/crap4j.xml"/>
+        <log type="junit" target="./build/output/logs/junit.xml" logIncompleteSkipped="false"/>
+    </logging>
+
+    <!-- Generate code coverage report only from the src directory -->
+    <filter>
+        <whitelist>
+            <directory>./src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

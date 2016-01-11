@@ -1,6 +1,7 @@
 <?php namespace Phabricator\Client\Curl;
 
 use BuildR\Foundation\Exception\RuntimeException;
+use Phabricator\Phabricator;
 
 /**
  * Class CurlRequest
@@ -30,13 +31,13 @@ class CurlRequest {
     public function __construct($requestUrl) {
         $this->requestUrl = $requestUrl;
 
-        $this->init();
+        $this->initialize();
     }
 
     /**
      * Initialize the CURL session
      */
-    public function init() {
+    public function initialize() {
         $this->handler = curl_init();
 
         $this->setOption(CURLOPT_URL, $this->requestUrl)
@@ -47,38 +48,48 @@ class CurlRequest {
     /**
      * Set an opt in current curl handler
      *
-     * @param $option
-     * @param $value
-     * @return \Phabricator\Client\CurlCurlRequest
-     * @throws \RuntimeException
+     * @param int $option
+     * @param mixed $value
+     *
+     * @throws \BuildR\Foundation\Exception\RuntimeException
+     *
+     * @return \Phabricator\Client\Curl\CurlRequest
      */
     public function setOption($option, $value) {
-        $res = curl_setopt($this->handler, $option, $value);
+        //Silence it because errors handled differently
+        $res = @curl_setopt($this->handler, $option, $value);
 
         if($res === TRUE) {
             return $this;
         }
 
-        throw new \RuntimeException("Failed to set the following opt: " . $option);
+        throw new RuntimeException('Failed to set the following option: ' . $option);
     }
 
     /**
      * Set multiple options with an associative array
      *
      * @param $options
+     *
+     * @return \Phabricator\Client\Curl\CurlRequest
      */
     public function setOptionFromArray($options) {
         foreach($options as $option => $value) {
             $this->setOption($option, $value);
         }
+
+        return $this;
     }
 
     /**
-     * Set the posted data
+     * Set the posted data. And also set the CURLOPT_POST option to TRUE, if is
+     * not set already.
      *
      * @param array $postData
+     *
+     * @codeCoverageIgnore
      */
-    public function setPostData($postData) {
+    public function setPostData(array $postData) {
         $this->setOption(CURLOPT_POST, 1)
              ->setOption(CURLOPT_POSTFIELDS, $postData);
     }
@@ -91,13 +102,15 @@ class CurlRequest {
     }
 
     /**
-     * Execute the request
+     * Execute the prepared request and optionally returns the response
      *
-     * @param bool $processAsConduitResponse Return only the response body from the response
+     * @param bool $returnTransfer Returns the returned response
      *
      * @throws \BuildR\Foundation\Exception\RuntimeException
      *
      * @return array|\stdClass
+     *
+     * @codeCoverageIgnore
      */
     public function execute($returnTransfer = TRUE) {
         //Need transfer return
