@@ -1,17 +1,22 @@
 <?php namespace Phabricator;
 
+use Phabricator\ClientAwareTrait;
 use Phabricator\Client\ClientInterface;
+use Phabricator\Client\Curl\CurlClient;
 use Phabricator\Endpoints\EndpointInterface;
 use Phabricator\Exception\UnimplementedEndpointException;
-use Phabricator\Exception\UnimplementedEndpointMethodException;
 
 /**
- * Class Phabricator
+ * Phabricator PHP API main class that manage API class and result printing
  *
- * @package Phabricator
+ * Phabricator PHP API
+ *
  * @author Zoltán Borsos <zolli07@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
- * @version 1.0.0
+ * @package Phabricator
+ *
+ * @copyright    Copyright 2016, Zoltán Borsos.
+ * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
+ * @link         https://github.com/Zolli/Phabricator-PHP-API
  *
  * @method object User(string $methodName, array $methodData = []) Execute the method on User endpoint
  * @method object Token(string $methodName, array $methodData = []) Execute the method on Token endpoint
@@ -48,63 +53,49 @@ class Phabricator {
     use ClientAwareTrait;
 
     /**
-     * @var string Where is phabricator located
+     * @type string Where is phabricator located
      */
-    private $phabricatorUrl;
+    protected $phabricatorUrl;
 
     /**
-     * @var string Contains the authenticated user name
+     * @type string Contains the authenticated user token
      */
-    private $authUser;
+    protected $conduitToken;
 
     /**
-     * @var string Contains the authenticated user token
-     */
-    private $conduitCertificateToken;
-
-    /**
-     * @var array Cache the constructed endpoint ebjects
+     * @type array Cache the constructed endpoint ebjects
      */
     private $endpointObjectCache;
 
     /**
-     * @var array Contains all unique endpoint handler
+     * @type array Contains all unique endpoint handler
      */
     private $uniqueEndpointHandlers;
 
     /**
-     * Constructor, set authentication information and initialize the basic handshaking
+     * Phabricator constructor
      *
-     * @param ClientInterface $client
      * @param string $baseUrl
-     * @param string $authUser
      * @param string $token
+     * @param \Phabricator\Client\ClientInterface $client
      */
-    public function __construct(ClientInterface $client, $baseUrl, $authUser, $token) {
+    public function __construct($baseUrl, $token, ClientInterface $client = NULL) {
+        if($client === NULL) {
+            $client = new CurlClient();
+        }
+
         $this->setClient($client);
 
-        $this->authUser = $authUser;
-        $this->conduitCertificateToken = $token;
+        $this->conduitToken = $token;
         $this->phabricatorUrl = $baseUrl;
-
-        $clientBaseData = [
-            'baseUrl' => $this->phabricatorUrl,
-            'authUser' => $this->authUser,
-            'token' => $this->conduitCertificateToken,
-        ];
-
-        $client->setBaseData($clientBaseData);
-
-        if($client->isConnected() === FALSE) {
-            $client->connect();
-        }
     }
 
     /**
-     * Pushes a unique handler to the stack
+     * Pushes a unique handler to the stack. Unique handlers are preferred, over default handlers.
+     * One endpoint only have on unique handler, and if you push another it will overwrite the previous
      *
      * @param string $apiName
-     * @param EndpointInterface $handler
+     * @param \Phabricator\Endpoints\EndpointInterface $handler
      */
     public function pushEndpointHandler($apiName, EndpointInterface $handler) {
         $apiName = ucfirst(strtolower($apiName));
@@ -113,13 +104,14 @@ class Phabricator {
     }
 
     /**
-     * Call on any undefined method allow to use like this:
-     * $instance->Project("query");
+     * Proxy for undefined methods
      *
-     * @param $apiName
-     * @param $arguments
+     * @param string $apiName The endpoint name
+     * @param array $arguments arguments
+     *
      * @throws \Phabricator\Exception\UnimplementedEndpointException
-     * @return \stdClass|null
+     *
+     * @return \stdClass|NULL
      */
     public function __call($apiName, $arguments) {
         $methodName = $arguments[0];

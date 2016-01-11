@@ -1,15 +1,29 @@
 <?php namespace Phabricator\Endpoints;
 
 /**
- * Interface EndpointInterface
+ * Common interface for various endpoint handler
  *
- * @package Phabricator\Endpoints
+ * Phabricator PHP API
+ *
  * @author Zoltán Borsos <zolli07@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
- * @version 1.0.0
+ * @package Phabricator
+ * @subpackage Endpoints
+ *
+ * @copyright    Copyright 2016, Zoltán Borsos.
+ * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
+ * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
 interface EndpointInterface {
 
+    /**
+     * Default command executor method.
+     * This is a fallback, if no unique executor default in the handler this method will be invoked
+     *
+     * @param string $methodName The called method name, like project.query
+     * @param array $arguments The arguments passed to the method as JSON
+     *
+     * @return \stdClass|NULL
+     */
     public function defaultExecutor($methodName, $arguments);
 
 } 

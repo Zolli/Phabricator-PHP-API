@@ -3,17 +3,22 @@
 use Phabricator\Client\ClientInterface;
 
 /**
- * Class baseEndpoint
+ * Base class to handle endpoint methods
  *
- * @package Phabricator\Endpoints
+ * Phabricator PHP API
+ *
  * @author Zoltán Borsos <zolli07@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
- * @version 1.0.0
+ * @package Phabricator
+ * @subpackage Endpoints
+ *
+ * @copyright    Copyright 2016, Zoltán Borsos.
+ * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
+ * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
 class BaseEndpoint {
 
     /**
-     * @var \Phabricator\Client\ClientInterface
+     * @type \Phabricator\Client\ClientInterface
      */
     protected $client;
 
@@ -28,11 +33,7 @@ class BaseEndpoint {
     }
 
     /**
-     * fallback method if the method executor is not defined in the child class
-     *
-     * @param string $methodName The called method name, like project.query
-     * @param $arguments The arguments passed to the method as JSON
-     * @return \stdClass|null
+     * {@inheritdoc}
      */
     public function defaultExecutor($methodName, $arguments) {
         return $this->client->request($methodName, $arguments);

@@ -1,21 +1,51 @@
 <?php namespace Phabricator\Client;
 
 /**
- * Interface ClientInterface
+ * Common interface for various clients
  *
- * @package Phabricator\Client
+ * Phabricator PHP API
+ *
  * @author Zoltán Borsos <zolli07@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
- * @version 1.0.0
+ * @package Phabricator
+ * @subpackage Client
+ *
+ * @copyright    Copyright 2016, Zoltán Borsos.
+ * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
+ * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
 interface ClientInterface {
 
-    public function connect();
-    public function setBaseData($data);
-    public function getAuthData();
+    /**
+     * Returns the current client unique name
+     *
+     * @return string
+     */
     public function getClientName();
+
+    /**
+     * Returns the description of the current client. Return an empty string
+     * if you not want any detailed description
+     *
+     * @return string
+     */
+    public function getClientDescription();
+
+    /**
+     * Returns the current client version number in semantic format
+     * e.g. (1.1.4)
+     *
+     * @return string
+     */
     public function getClientVersion();
-    public function isConnected();
+
+    /**
+     * Make the request to the given URI
+     *
+     * @param string $url
+     * @param array $requestData
+     *
+     * @return array
+     */
     public function request($url, $requestData);
 
 } 

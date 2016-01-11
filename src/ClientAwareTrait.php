@@ -3,17 +3,21 @@
 use Phabricator\Client\ClientInterface;
 
 /**
- * Class ClientAwareTrait
+ * Client aware trait
  *
- * @package Phabricator
+ * Phabricator PHP API
+ *
  * @author Zoltán Borsos <zolli07@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
- * @version 1.0.0
+ * @package Phabricator
+ *
+ * @copyright    Copyright 2016, Zoltán Borsos.
+ * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
+ * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
 trait ClientAwareTrait {
 
     /**
-     * @var \Phabricator\Client\ClientInterface
+     * @type \Phabricator\Client\ClientInterface
      */
     protected $client;
 
@@ -27,7 +31,7 @@ trait ClientAwareTrait {
     }
 
     /**
-     * Returns the current client
+     * returns the currently used client
      *
      * @return \Phabricator\Client\ClientInterface
      */
