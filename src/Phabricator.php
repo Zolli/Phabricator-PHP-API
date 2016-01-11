@@ -4,9 +4,7 @@ use BuildR\Foundation\Exception\RuntimeException;
 use Phabricator\ClientAwareTrait;
 use Phabricator\Client\ClientInterface;
 use Phabricator\Client\Curl\CurlClient;
-use Phabricator\Endpoints\EndpointInterface;
 use Phabricator\Exception\UnimplementedEndpointException;
-use Phabricator\Request\Decorators\AuthTokenContainer;
 use Phabricator\Request\RequestData;
 use ReflectionClass;
 use ReflectionException;
@@ -122,10 +120,8 @@ class Phabricator {
         $argData = $this->getDataByArguments($arguments);
 
         $methodName = $argData['methodName'];
-        $funcArgs = new RequestData($argData['methodArgs'], $this->conduitToken);
-        var_dump($funcArgs);
-        $apiMethodName = strtolower($apiName) . "." . strtolower($methodName);
-
+        $requestData = (new RequestData($argData['methodArgs'], $this->conduitToken))->getResult();
+        $requestUrl = $this->phabricatorUrl . '/api/' . strtolower($apiName) . "." . strtolower($methodName);
         $neededClass = $this->getHandlerClassName($apiName);
 
         try {
@@ -134,11 +130,11 @@ class Phabricator {
             throw new UnimplementedEndpointException("This API endpoint: {$apiName} is not implemented yet!");
         }
 
-        $neededMethod = $this->getExecutorMethod($methodName, $endpointReflector);
+        $methodReflector = $this->getExecutorMethod($methodName, $endpointReflector);
         $endpointInstance = $this->getEndpointHandler($apiName, $endpointReflector);
 
         //Returning the response from request
-        return $endpointReflector->getMethod($neededMethod)->invokeArgs($endpointInstance, [$apiMethodName, $funcArgs]);
+        return $methodReflector->invokeArgs($endpointInstance, [$requestUrl, $requestData]);
     }
 
     protected function getEndpointHandler($apiName, $endpointReflector) {
@@ -160,7 +156,7 @@ class Phabricator {
             $neededMethod = "defaultExecutor";
         }
 
-        return $neededMethod;
+        return $endpointReflector->getMethod($neededMethod);
     }
 
     protected function getHandlerClassName($apiName) {

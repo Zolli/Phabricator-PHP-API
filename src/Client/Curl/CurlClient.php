@@ -42,7 +42,10 @@ class CurlClient implements ClientInterface {
      * {@inheritDoc}
      */
     public function request($url, $requestData) {
+        $request = new CurlRequest($url);
+        $request->setPostData($requestData);
 
+        return $request->execute();
     }
 
 }

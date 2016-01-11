@@ -36,7 +36,7 @@ class BaseEndpoint {
      * {@inheritdoc}
      */
     public function defaultExecutor($requestUrl, $requestData) {
-        die(var_dump('DEF EXEC'));
+        return $this->client->request($requestUrl, $requestData);
     }
 
 } 

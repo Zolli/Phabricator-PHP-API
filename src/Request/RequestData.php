@@ -42,7 +42,7 @@ class RequestData {
         $params = $this->rawData;
         $params['__conduit__'] = ['token' => $this->token];
 
-        $returnedData['params'] = $params;
+        $returnedData['params'] = json_encode($params);
         $returnedData['output'] = $this->output;
         $returnedData['__conduit__'] = TRUE;
 
