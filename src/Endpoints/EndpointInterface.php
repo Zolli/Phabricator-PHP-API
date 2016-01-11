@@ -19,11 +19,11 @@ interface EndpointInterface {
      * Default command executor method.
      * This is a fallback, if no unique executor default in the handler this method will be invoked
      *
-     * @param string $methodName The called method name, like project.query
-     * @param array $arguments The arguments passed to the method as JSON
+     * @param string $requestUrl The request full URL
+     * @param array $requestData The request data as array
      *
      * @return \stdClass|NULL
      */
-    public function defaultExecutor($methodName, $arguments);
+    public function defaultExecutor($requestUrl, $requestData);
 
 } 

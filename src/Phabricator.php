@@ -1,10 +1,15 @@
 <?php namespace Phabricator;
 
+use BuildR\Foundation\Exception\RuntimeException;
 use Phabricator\ClientAwareTrait;
 use Phabricator\Client\ClientInterface;
 use Phabricator\Client\Curl\CurlClient;
 use Phabricator\Endpoints\EndpointInterface;
 use Phabricator\Exception\UnimplementedEndpointException;
+use Phabricator\Request\Decorators\AuthTokenContainer;
+use Phabricator\Request\RequestData;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Phabricator PHP API main class that manage API class and result printing
@@ -95,12 +100,12 @@ class Phabricator {
      * One endpoint only have on unique handler, and if you push another it will overwrite the previous
      *
      * @param string $apiName
-     * @param \Phabricator\Endpoints\EndpointInterface $handler
+     * @param string $handlerClassName The handler FQCN
      */
-    public function pushEndpointHandler($apiName, EndpointInterface $handler) {
+    public function pushEndpointHandler($apiName, $handlerClassName) {
         $apiName = ucfirst(strtolower($apiName));
 
-        $this->uniqueEndpointHandlers[$apiName] = $handler;
+        $this->uniqueEndpointHandlers[$apiName] = $handlerClassName;
     }
 
     /**
@@ -114,45 +119,91 @@ class Phabricator {
      * @return \stdClass|NULL
      */
     public function __call($apiName, $arguments) {
-        $methodName = $arguments[0];
-        $validMethodName = strtolower($apiName) . "." . strtolower($methodName);
-        $funcArgs = [];
+        $argData = $this->getDataByArguments($arguments);
 
-        if(isset($arguments[1]) AND is_array($arguments[1])) {
-            $funcArgs = $arguments[1];
-        }
+        $methodName = $argData['methodName'];
+        $funcArgs = new RequestData($argData['methodArgs'], $this->conduitToken);
+        var_dump($funcArgs);
+        $apiMethodName = strtolower($apiName) . "." . strtolower($methodName);
 
-        //Check for unique handler
-        if(isset($this->uniqueEndpointHandlers[$apiName])) {
-            $neededClass = get_class($this->uniqueEndpointHandlers[$apiName]);
-        } else {
-            $neededClass = __NAMESPACE__ . "\\" . "Endpoints\\" . $apiName;
-        }
-
-        //Figure out method name to execute the method
-        $neededMethod = ucfirst(strtolower($methodName)) . "Executor";
+        $neededClass = $this->getHandlerClassName($apiName);
 
         try {
-            $endpointReflector = new \ReflectionClass($neededClass);
-        } catch(\ReflectionException $e) {
+            $endpointReflector = new ReflectionClass($neededClass);
+        } catch(ReflectionException $e) {
             throw new UnimplementedEndpointException("This API endpoint: {$apiName} is not implemented yet!");
         }
 
-        //Fallback method for not special, or unimplemented endpoint methods
+        $neededMethod = $this->getExecutorMethod($methodName, $endpointReflector);
+        $endpointInstance = $this->getEndpointHandler($apiName, $endpointReflector);
+
+        //Returning the response from request
+        return $endpointReflector->getMethod($neededMethod)->invokeArgs($endpointInstance, [$apiMethodName, $funcArgs]);
+    }
+
+    protected function getEndpointHandler($apiName, $endpointReflector) {
+        if(isset($this->endpointObjectCache[$apiName])) {
+            return $this->endpointObjectCache[$apiName];
+        }
+
+        //Create a new instance and store it
+        $endpointInstance = $endpointReflector->newInstanceArgs([$this->getClient()]);
+        $this->endpointObjectCache[$apiName] = $endpointInstance;
+
+        return $endpointInstance;
+    }
+
+    protected function getExecutorMethod($methodName, ReflectionClass $endpointReflector) {
+        $neededMethod = strtolower($methodName) . "Executor";
+
         if(!$endpointReflector->hasMethod($neededMethod)) {
             $neededMethod = "defaultExecutor";
         }
 
-        //Endpoint object caching
-        if(!isset($this->endpointObjectCache[$apiName])) {
-            $endpointInstance = $endpointReflector->newInstanceArgs([$this->getClient()]);
-            $this->endpointObjectCache[$apiName] = $endpointInstance;
-        } else {
-            $endpointInstance = $this->endpointObjectCache[$apiName];
+        return $neededMethod;
+    }
+
+    protected function getHandlerClassName($apiName) {
+        $apiName = ucfirst(strtolower($apiName));
+        $neededClass = __NAMESPACE__ . '\\' . 'Endpoints\\Defaults\\' . $apiName;
+
+        if(isset($this->uniqueEndpointHandlers[$apiName])) {
+            $neededClass = get_class($this->uniqueEndpointHandlers[$apiName]);
         }
 
-        //Returning the response from request
-        return $endpointReflector->getMethod($neededMethod)->invokeArgs($endpointInstance, [$validMethodName, $funcArgs]);
+        return $neededClass;
+    }
+
+    /**
+     * Get the base date by the passed array. The returned array contains the method name (on endpoint)
+     * and the arguments that the called method can give.
+     *
+     * Returned array keys:
+     * - (string) methodName
+     * - (array) methodArgs
+     *
+     * @param array $arguments The magic method argument array
+     *
+     * @throws \BuildR\Foundation\Exception\RuntimeException
+     *
+     * @return array
+     */
+    protected function getDataByArguments(array $arguments) {
+        if(!isset($arguments[0])) {
+            throw new RuntimeException('The arguments not contains the method name!');
+        }
+
+        $methodName = (string) $arguments[0];
+        $methodArgs = [];
+
+        if(isset($arguments[1]) && is_array($arguments[1])) {
+            $methodArgs = $arguments[1];
+        }
+
+        return [
+            'methodName' => $methodName,
+            'methodArgs' => $methodArgs,
+        ];
     }
 
 } 

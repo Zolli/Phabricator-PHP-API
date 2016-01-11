@@ -5,7 +5,8 @@
     "keywords": ["api", "client", "phabricator", "conduit"],
     "license": "MIT",
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.5",
+        "buildr/foundation": "0.2.*"
     },
     "require-dev": {
         "phing/phing": "2.*",

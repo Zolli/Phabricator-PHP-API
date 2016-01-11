@@ -1,5 +1,7 @@
 <?php namespace Phabricator\Exception;
 
+use BuildR\Foundation\Exception\Exception;
+
 /**
  * Class UnimplementedEndpointException
  *
@@ -8,6 +10,6 @@
  * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
  * @version 1.0.0
  */
-class UnimplementedEndpointException extends \Exception {
+class UnimplementedEndpointException extends Exception {
 
 } 
