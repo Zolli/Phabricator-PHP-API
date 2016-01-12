@@ -3,12 +3,17 @@
 use BuildR\Foundation\Exception\Exception;
 
 /**
- * Class UnimplementedEndpointException
+ * This exception thrown if try to call an unimplemented endpoint
  *
- * @package Phabricator\Exception
+ * Phabricator PHP API
+ *
  * @author Zoltán Borsos <zolli07@gmail.com>
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License, version 3
- * @version 1.0.0
+ * @package Phabricator
+ * @subpackage Exception
+ *
+ * @copyright    Copyright 2016, Zoltán Borsos.
+ * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
+ * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
 class UnimplementedEndpointException extends Exception {
 
