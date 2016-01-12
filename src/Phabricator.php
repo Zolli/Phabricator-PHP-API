@@ -4,7 +4,6 @@ use BuildR\Foundation\Exception\RuntimeException;
 use Phabricator\ClientAwareTrait;
 use Phabricator\Client\ClientInterface;
 use Phabricator\Client\Curl\CurlClient;
-use Phabricator\Endpoints\EndpointInterface;
 use Phabricator\Exception\UnimplementedEndpointException;
 use Phabricator\Request\RequestData;
 use Phabricator\Response\ConduitResponse;
@@ -101,8 +100,14 @@ class Phabricator {
      *
      * @param string $apiName
      * @param string $handlerClassName The handler FQCN
+     *
+     * @throws \BuildR\Foundation\Exception\RuntimeException
      */
     public function pushEndpointHandler($apiName, $handlerClassName) {
+        if(!class_exists($handlerClassName)) {
+            throw new RuntimeException('This handler class (' . $handlerClassName . ') not found!');
+        }
+
         $apiName = ucfirst(strtolower($apiName));
 
         $this->uniqueEndpointHandlers[$apiName] = $handlerClassName;
@@ -122,8 +127,11 @@ class Phabricator {
      * @throws \Phabricator\Exception\UnimplementedEndpointException
      *
      * @return \stdClass|NULL
+     *
+     * @codeCoverageIgnore
      */
     public function __call($apiName, $arguments) {
+        $apiName = ucfirst(strtolower($apiName));
         $argData = $this->getDataByArguments($arguments);
 
         $methodName = $argData['methodName'];
