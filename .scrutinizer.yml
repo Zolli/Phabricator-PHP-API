@@ -1,0 +1,19 @@
+checks:
+    php:
+        code_rating: true
+        duplication: true
+build:
+  tests:
+    override:
+      -
+        command: 'phpunit --configuration=phpunit.xml --coverage-clover=coverage.clover'
+        coverage:
+          file: 'coverage.clover'
+          format: 'php-clover'
+tools:
+  php_code_sniffer:
+    config:
+      standard: "PSR1"
+filter:
+  paths:
+    - src/*
