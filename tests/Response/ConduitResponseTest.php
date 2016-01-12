@@ -10,7 +10,6 @@ class ConduitResponseTest extends BuildR_TestCase {
 
     /**
      * @expectedException \BuildR\Foundation\Exception\Exception
-     * @expectedExceptionMessage Malformed JSON response! Message: Syntax error
      */
     public function testItThrowsExceptionWhenGivenJsonIsMalformed() {
         $options = ['methodParams' => ['{malformed json}']];
