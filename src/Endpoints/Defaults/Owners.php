@@ -4,7 +4,7 @@ use Phabricator\Endpoints\BaseEndpoint;
 use Phabricator\Endpoints\EndpointInterface;
 
 /**
- * Releeph Default Endpoint Handler
+ * Owners Default Endpoint Handler
  *
  * Phabricator PHP API
  *
@@ -16,6 +16,6 @@ use Phabricator\Endpoints\EndpointInterface;
  * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
  * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
-class Releeph extends BaseEndpoint implements EndpointInterface {
+class Owners extends BaseEndpoint implements EndpointInterface {
 
-} 
+}

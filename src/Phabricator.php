@@ -22,35 +22,33 @@ use ReflectionException;
  * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
  * @link         https://github.com/Zolli/Phabricator-PHP-API
  *
- * @method object User(string $methodName, array $methodData = []) Execute the method on User endpoint
- * @method object Token(string $methodName, array $methodData = []) Execute the method on Token endpoint
- * @method object Slowvote(string $methodName, array $methodData = []) Execute the method on Slowvote endpoint
- * @method object Repository(string $methodName, array $methodData = []) Execute the method on Repository endpoint
- * @method object Rremarkup(string $methodName, array $methodData = []) Execute the method on Remarkup endpoint
- * @method object Releephwork(string $methodName, array $methodData = []) Execute the method on Releephwork endpoint
- * @method object Releeph(string $methodName, array $methodData = []) Execute the method on Releeph endpoint
- * @method object Project(string $methodName, array $methodData = []) Execute the method on Project endpoint
- * @method object Phriction(string $methodName, array $methodData = []) Execute the method on Phriction endpoint
- * @method object Phrequest(string $methodName, array $methodData = []) Execute the method on Phrequest endpoint
- * @method object Phragment(string $methodName, array $methodData = []) Execute the method on Phragment endpoint
- * @method object Phid(string $methodName, array $methodData = []) Execute the method on Phid endpoint
- * @method object Phame(string $methodName, array $methodData = []) Execute the method on Phame endpoint
- * @method object paste(string $methodName, array $methodData = []) Execute the method on paste endpoint
- * @method object Passphare(string $methodName, array $methodData = []) Execute the method on Passphare endpoint
- * @method object Nuance(string $methodName, array $methodData = []) Execute the method on Nuance endpoint
- * @method object Maniphest(string $methodName, array $methodData = []) Execute the method on Maniphest endpoint
- * @method object Macro(string $methodName, array $methodData = []) Execute the method on Macro endpoint
- * @method object Harbormaster(string $methodName, array $methodData = []) Execute the method on Harbormaster endpoint
- * @method object Flag(string $methodName, array $methodData = []) Execute the method on Flag endpoint
- * @method object File(string $methodName, array $methodData = []) Execute the method on File endpoint
- * @method object Feed(string $methodName, array $methodData = []) Execute the method on Feed endpoint
- * @method object Diffusion(string $methodName, array $methodData = []) Execute the method on Diffusion endpoint
- * @method object Differential(string $methodName, array $methodData = []) Execute the method on Differential endpoint
- * @method object Conpherence(string $methodName, array $methodData = []) Execute the method on Conpherence endpoint
- * @method object Conduit(string $methodName, array $methodData = []) Execute the method on Conduit endpoint
- * @method object Chatlog(string $methodName, array $methodData = []) Execute the method on Chatlog endpoint
- * @method object Audit(string $methodName, array $methodData = []) Execute the method on Audit endpoint
- * @method object Almanac(string $methodName, array $methodData = []) Execute the method on Almanac endpoint
+ * @method \Phabricator\Response\ConduitResponse User(string $methodName, array $methodData = []) Execute the method on User endpoint
+ * @method \Phabricator\Response\ConduitResponse Token(string $methodName, array $methodData = []) Execute the method on Token endpoint
+ * @method \Phabricator\Response\ConduitResponse Slowvote(string $methodName, array $methodData = []) Execute the method on Slowvote endpoint
+ * @method \Phabricator\Response\ConduitResponse Repository(string $methodName, array $methodData = []) Execute the method on Repository endpoint
+ * @method \Phabricator\Response\ConduitResponse Rremarkup(string $methodName, array $methodData = []) Execute the method on Remarkup endpoint
+ * @method \Phabricator\Response\ConduitResponse Project(string $methodName, array $methodData = []) Execute the method on Project endpoint
+ * @method \Phabricator\Response\ConduitResponse Phriction(string $methodName, array $methodData = []) Execute the method on Phriction endpoint
+ * @method \Phabricator\Response\ConduitResponse Phrequest(string $methodName, array $methodData = []) Execute the method on Phrequest endpoint
+ * @method \Phabricator\Response\ConduitResponse Phid(string $methodName, array $methodData = []) Execute the method on Phid endpoint
+ * @method \Phabricator\Response\ConduitResponse Phame(string $methodName, array $methodData = []) Execute the method on Phame endpoint
+ * @method \Phabricator\Response\ConduitResponse paste(string $methodName, array $methodData = []) Execute the method on paste endpoint
+ * @method \Phabricator\Response\ConduitResponse Passphare(string $methodName, array $methodData = []) Execute the method on Passphare endpoint
+ * @method \Phabricator\Response\ConduitResponse Owners(string $methodName, array $methodData = []) Execute the method on Owners endpoint
+ * @method \Phabricator\Response\ConduitResponse Nuance(string $methodName, array $methodData = []) Execute the method on Nuance endpoint
+ * @method \Phabricator\Response\ConduitResponse Maniphest(string $methodName, array $methodData = []) Execute the method on Maniphest endpoint
+ * @method \Phabricator\Response\ConduitResponse Macro(string $methodName, array $methodData = []) Execute the method on Macro endpoint
+ * @method \Phabricator\Response\ConduitResponse Harbormaster(string $methodName, array $methodData = []) Execute the method on Harbormaster endpoint
+ * @method \Phabricator\Response\ConduitResponse Flag(string $methodName, array $methodData = []) Execute the method on Flag endpoint
+ * @method \Phabricator\Response\ConduitResponse File(string $methodName, array $methodData = []) Execute the method on File endpoint
+ * @method \Phabricator\Response\ConduitResponse Feed(string $methodName, array $methodData = []) Execute the method on Feed endpoint
+ * @method \Phabricator\Response\ConduitResponse Diffusion(string $methodName, array $methodData = []) Execute the method on Diffusion endpoint
+ * @method \Phabricator\Response\ConduitResponse Differential(string $methodName, array $methodData = []) Execute the method on Differential endpoint
+ * @method \Phabricator\Response\ConduitResponse Conpherence(string $methodName, array $methodData = []) Execute the method on Conpherence endpoint
+ * @method \Phabricator\Response\ConduitResponse Conduit(string $methodName, array $methodData = []) Execute the method on Conduit endpoint
+ * @method \Phabricator\Response\ConduitResponse Chatlog(string $methodName, array $methodData = []) Execute the method on Chatlog endpoint
+ * @method \Phabricator\Response\ConduitResponse Auth(string $methodName, array $methodData = []) Execute the method on Auth endpoint
+ * @method \Phabricator\Response\ConduitResponse Audit(string $methodName, array $methodData = []) Execute the method on Audit endpoint
  */
 class Phabricator {
 

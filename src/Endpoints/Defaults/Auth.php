@@ -4,7 +4,7 @@ use Phabricator\Endpoints\BaseEndpoint;
 use Phabricator\Endpoints\EndpointInterface;
 
 /**
- * Releephwork Default Endpoint Handler
+ * Auth Default Endpoint Handler
  *
  * Phabricator PHP API
  *
@@ -16,6 +16,6 @@ use Phabricator\Endpoints\EndpointInterface;
  * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
  * @link         https://github.com/Zolli/Phabricator-PHP-API
  */
-class Releephwork extends BaseEndpoint implements EndpointInterface {
+class Auth extends BaseEndpoint implements EndpointInterface {
 
-} 
+}
