@@ -22,6 +22,8 @@ use ReflectionException;
  * @license      https://github.com/Zolli/Phabricator-PHP-API/blob/master/LICENSE.md
  * @link         https://github.com/Zolli/Phabricator-PHP-API
  *
+ * @codingStandardIgnoreStart
+ *
  * @method \Phabricator\Response\ConduitResponse User(string $methodName, array $methodData = []) Execute the method on User endpoint
  * @method \Phabricator\Response\ConduitResponse Token(string $methodName, array $methodData = []) Execute the method on Token endpoint
  * @method \Phabricator\Response\ConduitResponse Slowvote(string $methodName, array $methodData = []) Execute the method on Slowvote endpoint
@@ -49,6 +51,8 @@ use ReflectionException;
  * @method \Phabricator\Response\ConduitResponse Chatlog(string $methodName, array $methodData = []) Execute the method on Chatlog endpoint
  * @method \Phabricator\Response\ConduitResponse Auth(string $methodName, array $methodData = []) Execute the method on Auth endpoint
  * @method \Phabricator\Response\ConduitResponse Audit(string $methodName, array $methodData = []) Execute the method on Audit endpoint
+ *
+ * @codingStandardIgnoreEnd
  */
 class Phabricator {
 
