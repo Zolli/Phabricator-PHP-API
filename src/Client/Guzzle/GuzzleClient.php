@@ -26,7 +26,7 @@ class GuzzleClient implements ClientInterface {
      */
     public function request($url, $requestData) {
         if(!class_exists('GuzzleHttp\Client')) {
-            throw new RuntimeException('The guzzle client is not installed. Please install uzzlehttp/guzzle');
+            throw new RuntimeException('The guzzle client is not installed. Please install guzzlehttp/guzzle');
         }
 
         $client = new Client();
