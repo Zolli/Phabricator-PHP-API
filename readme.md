@@ -1,9 +1,9 @@
-[![Build Status](http://ci.zolli.hu/buildStatus/icon?job=Phabricator%20PHP%20API)](http://ci.zolli.hu/job/Phabricator%20PHP%20API/)
-[![Build Stability](http://status.buildr-framework.io/buildstatus/status_modules.php?jobName=Phabricator%20PHP%20API/&type=stability)](http://ci.zolli.hu/job/Phabricator%20PHP%20API/)
+[![Build Status](https://ci.zolli.hu/job/PhabricatorAPI/badge/icon)](https://ci.zolli.hu/job/PhabricatorAPI/)
+[![Build Stability](https://status.buildr-framework.io/buildstatus/status_modules.php?jobName=PhabricatorAPI/&type=stability)](https://ci.zolli.hu/job/PhabricatorAPI/)
 [![Code Coverage](https://scrutinizer-ci.com/g/Zolli/Phabricator-PHP-API/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Zolli/Phabricator-PHP-API/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Zolli/Phabricator-PHP-API/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Zolli/Phabricator-PHP-API/?branch=master)
-[![Test Results](http://status.buildr-framework.io/buildstatus/status_modules.php?jobName=Phabricator%20PHP%20API&type=tests)](http://ci.zolli.hu/job/Phabricator%20PHP%20API/)
-[![CRAP Report](http://status.buildr-framework.io/buildstatus/status_modules.php?jobName=Phabricator%20PHP%20API&type=crap)](http://ci.zolli.hu/job/Phabricator%20PHP%20API/)
+[![Test Results](https://status.buildr-framework.io/buildstatus/status_modules.php?jobName=PhabricatorAPI&type=tests)](https://ci.zolli.hu/job/PhabricatorAPI/)
+[![CRAP Report](https://status.buildr-framework.io/buildstatus/status_modules.php?jobName=PhabricatorAPI&type=crap)](https://ci.zolli.hu/job/PhabricatorAPI/)
 [![Dependency Status](https://www.versioneye.com/user/projects/5694edc7af789b0043000c0c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5694edc7af789b0043000c0c)
 [![PHP7 Status](https://img.shields.io/badge/PHP7-tested-8892BF.svg)](https://github.com/BuildrPHP/Test-Tools)
 
@@ -143,7 +143,10 @@ The 2.0.0 release API documentation is available here: [API Documentation](https
 
 ## Contribution
 
+[Project link](https://project.zolli.hu/projects/PHA/issues/)
+
 For contribution guide and coding standard please visit our [Coding Standard Repository](https://github.com/BuildrPHP/Coding-Standard)
+
 
 ## Licensing
 
