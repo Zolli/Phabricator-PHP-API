@@ -78,7 +78,7 @@ class CurlClient implements ClientInterface {
      */
     protected function setOptionsOnRequest(CurlRequest $request, $options) {
         foreach($options as $option => $value) {
-            $request->setOption($options, $value);
+            $request->setOption($option, $value);
         }
     }
 
