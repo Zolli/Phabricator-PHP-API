@@ -1,7 +1,6 @@
 <?php namespace Phabricator;
 
 use BuildR\Foundation\Exception\RuntimeException;
-use Phabricator\ClientAwareTrait;
 use Phabricator\Client\ClientInterface;
 use Phabricator\Client\Curl\CurlClient;
 use Phabricator\Exception\UnimplementedEndpointException;
@@ -56,7 +55,10 @@ use ReflectionException;
  */
 class Phabricator {
 
-    use ClientAwareTrait;
+    /**
+     * @type \Phabricator\Client\ClientInterface
+     */
+    protected $client;
 
     /**
      * @type string Where is phabricator located
@@ -94,6 +96,24 @@ class Phabricator {
 
         $this->conduitToken = $token;
         $this->phabricatorUrl = $baseUrl;
+    }
+
+    /**
+     * set the current client implementation
+     *
+     * @param \Phabricator\Client\ClientInterface $client
+     */
+    public function setClient(ClientInterface $client) {
+        $this->client = $client;
+    }
+
+    /**
+     * returns the currently used client
+     *
+     * @return \Phabricator\Client\ClientInterface
+     */
+    public function getClient() {
+        return $this->client;
     }
 
     /**
