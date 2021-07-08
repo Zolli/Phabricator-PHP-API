@@ -41,7 +41,7 @@ class RequestData {
 
         $params = $this->mergeConduitMetaData($this->rawData, $this->token);
 
-        $returnedData['params'] = json_encode($params);
+        $returnedData['params'] = json_encode(self::array_utf8_encode($params));;
         $returnedData['output'] = $this->output;
 
         //This indicates the API to the client expects conduit response.
@@ -67,4 +67,21 @@ class RequestData {
         return $params;
     }
 
+    protected function array_utf8_encode($data) 
+    {
+          if (is_string($data)) {
+            return utf8_encode($data);
+          } elseif (is_array($data)) {
+            $ret = array();
+
+            foreach ($data as $index => $value) {
+              $ret[$index] = self::array_utf8_encode($value);
+            }
+
+           return $ret;
+          }
+
+          return $data;
+       }
+   }
 }
